@@ -1,0 +1,128 @@
+# -*- coding: cp1252 -*-
+#---------------------------------------
+def carddeck(number_decks):
+    n = 0
+    cards = ['01c','02c','03c','04c','05c','06c','07c','08c','09c','10c','11c',\
+             '12c','13c','01d','02d','03d','04d','05d','06d','07d','08d','09d',\
+             '10d','11d','12d','13d','01s','02s','03s','04s','05s','06s','07s',\
+             '08s','09s','10s','11s','12s','13s','01h','02h','03h','04h','05h',\
+             '06h','07h','08h','09h','10h','11h','12h','13h']
+    cards1 =[]
+    while n<number_decks:
+        cards1 = cards1+cards
+        n=n+1
+    return cards1
+#---------------------------------------
+import random
+# n = number of players
+# p = number of carddecks
+# f = number of cards to draw for texas hold'em
+def draw_cards(n, p):
+    cards = carddeck(p)
+    f = 5 + n*2
+    a = random.sample(cards, f)
+    return a
+#---------------------------------------
+#--------------DEAL CARDS---------------
+#---------------------------------------
+drawn_cards = draw_cards(3, 1)
+my_cards = drawn_cards[5:7]
+flop = drawn_cards[0:3]
+turn = drawn_cards[3]
+river = drawn_cards[4]
+other_players = drawn_cards[7:]
+cards_in_play = drawn_cards[0:7]
+#---------------------------------------
+#--------POKERRANKS---------------------
+#---------------------------------------
+#1 - HIGH CARD
+#2 - ONE PAIR
+#3 - TWO PAIRS
+#4 - THREE OF A KIND
+#5 - STRAIGHT
+#6 - FLUSH
+#7 - FULL HOUSE
+#8 - FOUR OF A KIND
+#9 - STRAIGHT FLUSH
+#---------------------------------------
+#Check for possible combinations
+#1 Check for pairs, 3 of a kind, carre, 2 pairs, full house
+#2 Check for Flush
+#3 Check for Straight
+#4 Flush + Straight = Straight Flush
+#5 If none of the above - check for high card
+#---------------------------------------
+#print drawn_cards
+#print ''
+#print cards_in_play
+#print ''
+#print other_players
+#print ''
+#---------------------------------------
+#1 Check for pairs, 3 of a kind, carre, 2 pairs, full house, high card
+#---------------------------------------
+
+def samecards(cards_played): #Output of is as [Rank, 'Card']
+    a= [x[0:2] for x in list(cards_played)]    #Get's the numbers from the cards
+    p = [[a.count(x),x] for x in set(a)]
+    z = max(p)
+    p.remove(z)
+    f = max(p)
+    if z[0] == 4:
+    #    print 'You have Carré'
+        return [8, z[1]]
+    elif z[0]==3 and f[0]>1:
+    #    print 'You have Full House'
+        return [7, z[1]]
+    elif z[0]==3 and f[0]==1:
+        #    print 'You have 3 of a Kind'
+        return [4, z[1]]
+    elif z[0]==2 and f[0]==2:
+    #    print 'You have 2 pair'
+        return [3, z[1]]
+    elif z[0]==2 and f[0]<2:
+    #    print 'You have 1 pair'
+        return [2, z[1]]
+    else:
+    #    print 'You have no pairs'
+        return [1, z[1]]
+#print samecards(cards_in_play), 'Rank, Card - PLAYER 1'
+hand_pl1 = samecards(cards_in_play)
+#---------------------------------------
+#print drawn_cards, 'drawn cards'
+#print my_cards, 'my cards'
+#print flop, 'flop'
+#print turn, 'turn'
+#print river, 'river'
+#print other_players, 'other players'
+#print cards_in_play, 'cards in play'
+#print '---------------------------------'
+def didIwin(cards_to_check, hand2check):
+    a = 5
+    b = 7
+    z = []
+    while a<len(drawn_cards):
+        f = drawn_cards[0:5]+drawn_cards[a:b]
+        d = samecards(f)
+        #print d
+        #print f
+        z = z+[d]
+        a = a + 2
+        b = b + 2
+#    print ''
+#    print z
+#    print max(z)
+    if (hand_pl1 == max(z)):
+        return 1
+    else:
+        return 0
+t, times = 0, 10000
+v = 0
+while t < times:
+    t = t+1
+    drawn_cards = draw_cards(3, 1)
+    cards_in_play = drawn_cards[0:7]
+    hand_pl1 = samecards(cards_in_play)
+    p = didIwin(drawn_cards, hand_pl1)
+    v = v+p
+print (v*100/times),'%'
