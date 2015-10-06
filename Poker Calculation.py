@@ -7,9 +7,19 @@
 # 2. DEAL CARDS = Draw cards from the carddeck
 # 3. POKERRANKS = Check dealt cards for combinations
 # 4. DIDIWIN = Check if player 1 has won
+#-----------ADDITIONS TO MAKE TO PROGRAMME----------------
+# <<<<<<<<<AMMEND 5 HIGHEST CARD CALCULATION>>>>>>>>>>>>>>
+# Make calculation for 5 highest cards make sure the combinations are included
+# for a pair the pair needs to be included in the 5 highest cards even
+# if 5 other cards are higher
+# <<<<<<ADD WIN CALCULATION INCLUDING ALL COMBINATIONS>>>>>>>
+# Win calculation now only includes funciton samecards extend with others
+# Make sure win calculaiton also includes high card wins
+# <<<<<<<<<<ADD ENTRY FOR CARDS OF PLAYER 1>>>>>>>>>>>>
+# Add the optional addition of cards for player one so that can be calculated
+# with user input instead of randomly selected cards
 #------------------------------------------------
-# Adding this line for github upload to check if it works
-# CHECK THIS
+# Now Using Github for code sharing :)
 #------------------------------------------------
 #-----------POKERRANKS---------------------------
 #------------------------------------------------
@@ -161,7 +171,7 @@ def Straight(cards):
 #5 Check for Highest Cards
 #------------------------------------------------
 def Fivehighestcards(cards):
-    print cards
+#    print cards
     cards.sort()
     a = len(cards)
     b = len(cards)-5
@@ -181,6 +191,9 @@ def DidIwin(cards_to_check, hand2check):
     while a<len(cards_to_check):
         f = cards_to_check[0:5]+cards_to_check[a:b]
         d = Samecards(f)
+        e = Straight(f)
+        g = Flush(f)
+        h = Fivehighestcards(f)
 #        print f
 #        print d
         z = z+[d]
@@ -197,14 +210,24 @@ def DidIwin(cards_to_check, hand2check):
 #-------------TEST ONCE--------------------------
 #------------------------------------------------
 cards = Draw_cards(3,1)
-#print cards
-hand_pl1 = Samecards(cards[0:7])
-f = DidIwin(cards, hand_pl1)
-# print f
+cards_pl1 = cards[0:7]
+print cards_pl1, 'Cards drawn from pile for 1st player'
+print Fivehighestcards(cards_pl1), 'Fivehighestcards for 1st player'
+print Straight(cards_pl1), 'Straight'
+print Flush(cards_pl1), 'Flush'
+print Samecards(cards_pl1), 'Check for same cards i.e. pair, 3 of a kind, carré and Full House'
+a = Fivehighestcards(cards_pl1)
+b = Straight(cards_pl1)
+c = Flush(cards_pl1)
+d = Samecards(cards_pl1)
+e = [b]+[c]+[d]
+print e
+print max(e)
+print [max(e),a]
 #------------------------------------------------
 #-------------TEST MULTIPLE----------------------
 #------------------------------------------------
-t, times = 0, 1000
+t, times = 0, 1
 v = 0
 while t < times:
     t = t+1
