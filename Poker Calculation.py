@@ -8,6 +8,9 @@
 # 3. POKERRANKS = Check dealt cards for combinations
 # 4. DIDIWIN = Check if player 1 has won
 #------------------------------------------------
+# Adding this line for github upload to check if it works
+# CHECK THIS
+#------------------------------------------------
 #-----------POKERRANKS---------------------------
 #------------------------------------------------
 #Check for possible combinations
