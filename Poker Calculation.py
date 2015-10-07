@@ -12,12 +12,14 @@
 # Make calculation for 5 highest cards make sure the combinations are included
 # for a pair the pair needs to be included in the 5 highest cards even
 # if 5 other cards are higher
-# <<<<<<ADD WIN CALCULATION INCLUDING ALL COMBINATIONS>>>>>>>
-# Win calculation now only includes funciton samecards extend with others
-# Make sure win calculaiton also includes high card wins
 # <<<<<<<<<<ADD ENTRY FOR CARDS OF PLAYER 1>>>>>>>>>>>>
 # Add the optional addition of cards for player one so that can be calculated
 # with user input instead of randomly selected cards
+# <<<<<<<<<<ADD CALCULATION STRAIGHT FLUSH>>>>>>>>>>>>
+# Add a calculation to give straight+flush higher value than flush
+# <<<<<<<<<<CHECK PERCENTAGES>>>>>>>>>>>>
+# At the moment the %s dont add up to the correct number
+# User input should be taken from the random selection that is made
 #------------------------------------------------
 # Now Using Github for code sharing :)
 #------------------------------------------------
@@ -194,47 +196,59 @@ def DidIwin(cards_to_check, hand2check):
         e = Straight(f)
         g = Flush(f)
         h = Fivehighestcards(f)
+        i = [d]+[e]+[g]
 #        print f
-#        print d
-        z = z+[d]
+#        print i
+#        print max(i)
+        z = z+[[max(i),h]]
+        j = cards_to_check[0:5]+cards_to_check[a:b]
+        k = Samecards(hand2check)
+        l = Straight(hand2check)
+        m = Flush(hand2check)
+        n = Fivehighestcards(hand2check)
+        o = [k]+[l]+[m]
+        p = [max(o), n]
+#        print p
         a = a + 2
         b = b + 2
 #    print ''
 #    print z
 #    print max(z)
-    if (hand2check == max(z)):
+    if (p == max(z)):
         return 1
     else:
         return 0
 #------------------------------------------------
 #-------------TEST ONCE--------------------------
 #------------------------------------------------
-cards = Draw_cards(3,1)
-cards_pl1 = cards[0:7]
-print cards_pl1, 'Cards drawn from pile for 1st player'
-print Fivehighestcards(cards_pl1), 'Fivehighestcards for 1st player'
-print Straight(cards_pl1), 'Straight'
-print Flush(cards_pl1), 'Flush'
-print Samecards(cards_pl1), 'Check for same cards i.e. pair, 3 of a kind, carré and Full House'
-a = Fivehighestcards(cards_pl1)
-b = Straight(cards_pl1)
-c = Flush(cards_pl1)
-d = Samecards(cards_pl1)
-e = [b]+[c]+[d]
-print e
-print max(e)
-print [max(e),a]
+#cards = Draw_cards(3,1)
+#cards_pl1 = cards[0:7]
+#print 'Cards being checked'
+#print cards
+#print cards_pl1
+#print 'check DidIWin'
+#print DidIwin(cards, cards_pl1)
+#print 'check manually'
+#print cards_pl1, 'Cards drawn from pile for 1st player'
+#print Fivehighestcards(cards_pl1), 'Fivehighestcards for 1st player'
+#print Straight(cards_pl1), 'Straight'
+#print Flush(cards_pl1), 'Flush'
+#print Samecards(cards_pl1), 'Check for same cards i.e. pair, 3 of a kind, carré and Full House'
+
 #------------------------------------------------
 #-------------TEST MULTIPLE----------------------
 #------------------------------------------------
-t, times = 0, 1
+t, times = 0, 3000
 v = 0
 while t < times:
     t = t+1
     drawn_cards = Draw_cards(3, 1)
-    cards_pl1 = drawn_cards[0:7]
-    hand_pl1 = Samecards(cards_pl1)
-    p = DidIwin(drawn_cards, hand_pl1)
+    cards_pl1 = drawn_cards[0:5]+['01c','01d']
+#    print cards_pl1
+#    print drawn_cards
+    cards_in_calc = cards_pl1+drawn_cards[7:]
+#    print cards_in_calc
+    p = DidIwin(cards_in_calc, cards_pl1)
     v = v+p
 #    print v, drawn_cards
-#print (v*100/times),'%'
+print (v*100/times),'%'
